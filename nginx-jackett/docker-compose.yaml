@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  nginx-web-server:
+    build: ./nginx
+    image: jenginx
+    ports:
+      - "80:80"
+    depends_on:
+      - jackett
+    networks:
+      - nginx-bridge-network
+
+  jackett:
+    image: linuxserver/jackett
+    volumes:
+      - ~/JackettFiles/jackettconfig:/config
+      - ~/JackettFiles/torrentblackhole:/downloads
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      PGID: 1000
+      PUID: 1000
+    networks:
+      - nginx-bridge-network
+
+networks:
+  nginx-bridge-network:
+    driver: bridge
