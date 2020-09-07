@@ -1,18 +1,6 @@
 version: '3.7'
 services:
 
-        
-        db_host:
-                container_name: db
-                image: mysql:5.7
-                environment:
-                       - "MYSQL_ROOT_PASSWORD=1234"
-                volumes:
-                       - mysql-data:/var/lib/mysql
-                networks:
-                       - jenkins-nginx-network
-
-
 
         remote_host:
                 container_name: remote-host
@@ -57,7 +45,6 @@ services:
 volumes:
         jenkins-log:
         jenkins-data:
-        mysql-data:
 
 networks:
         jenkins-nginx-network:
