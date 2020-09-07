@@ -1,0 +1,20 @@
+docker cp foo.txt 72ca2488b353:/foo.txt
+docker exec -it container-name /bin/bash
+docker logs -f container_name
+
+
+ssh-keyscan remote-host
+sshpass -p "1234" ssh-copy-id remote_user@remote-host
+ssh-keygen -q -t rsa -N '' -f /id_rsa
+ssh -i /tmp/remote-key remote_user@remote-host
+ssh-keygen -t rsa -m PEM -f remote-key
+
+
+mysql -u root -p
+
+
+show databases;
+create database testdb;
+use testdb;
+create table info (name varchar(20), lastname varchar(20), age int(2));
+
