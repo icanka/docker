@@ -23,7 +23,7 @@ services:
                        - jenkins-nginx-network
                   
         jenkins:
-                image: jenkins/jenkins:lts
+                image: jenkins/jenkins:2.249.1-lts-centos
                 privileged: true
                 user: root
                 ports:
