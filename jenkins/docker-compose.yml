@@ -1,64 +1,34 @@
 version: '3.7'
 services:
 
-        
-        db_host:
-                container_name: db
-                image: mysql:5.7
+        gitlab_server:
+                image: 'gitlab/gitlab-ce:13.4.1-ce.0'
+                restart: always
+                hostname: "localhost"
                 environment:
-                       - "MYSQL_ROOT_PASSWORD=1234"
-                volumes:
-                       - mysql-data:/var/lib/mysql
-                networks:
-                       - jenkins-nginx-network
+                  GITLAB_OMNIBUS_CONFIG: |
+                    external_url "https://localhost:8090"
+                    gitlab_rails['gitlab_shell_ssh_port'] = 23
 
+                    # Uncomment this if you want to install your certicate
+                    # https://docs.gitlab.com/omnibus/settings/ssl.html#details-on-how-gitlab-and-ssl-work                    
+                    #letsencrypt['enable'] = false
 
+                ports: 
+                        - '8090:8090'
+                        - '23:22'
+                          #volumes:
+                          # - 1fa5493f64ad615ca99e6f177343cf19bc5fd2349d63974b5f011ff9cf7ddd0f:/etc/gitlab
+                          # - 077dd035a1f373accb323ad5dc3bdea555e1d7edcc87f7f2ff341dd9ecbdd955:/var/log/gitlab
+                          # - 2e0ae3cd01ae2b223111e4f2af76ae85bf115726630e741a8207dfa9e9e75e55:/var/opt/gitlab
+                          # networks:
+                          # - jenkins-nginx-network
 
-        remote_host:
-                container_name: remote-host
-                image: remote-host
-                build:
-                       context: centos8
-                networks:
-                       - jenkins-nginx-network
-                  
-        jenkins:
-                image: jenkins/jenkins:2.249.1-lts-centos
-                privileged: true
-                user: root
-                ports:
-                        - "50000:50000"
-                          #container_name: jenkins-container
-                volumes:
-                        - jenkins-log:/var/log/jenkins
-                        - jenkins-data:/var/jenkins_home
+                          #volumes:
+                          #  1fa5493f64ad615ca99e6f177343cf19bc5fd2349d63974b5f011ff9cf7ddd0f:
+                          # 077dd035a1f373accb323ad5dc3bdea555e1d7edcc87f7f2ff341dd9ecbdd955:
+                          # 2e0ae3cd01ae2b223111e4f2af76ae85bf115726630e741a8207dfa9e9e75e55:
 
-                          #- certbot-conf:/etc/letsencrypt
-                          #- certbot-www:/var/www/certbot
-                          #- /var/run/docker.sock:/var/run/docker.sock
-                          #- /usr/local/bin/docker:/usr/local/bin/docker
-                networks:
-                        - jenkins-nginx-network
-        nginx:
-                build: ./nginx
-                ports:
-                        - "80:80"
-                        - "443:443"
-                networks:
-                        - jenkins-nginx-network
-        
-                          # certbot:
-                          # image: certbot/certbot
-                          # restart: unless-stopped
-                          # volumes:
-                          # - certbot-conf:/etc/letsencrypt
-                          # - certbot-www:/var/www/certbot
-                          # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-volumes:
-        jenkins-log:
-        jenkins-data:
-        mysql-data:
-
-networks:
-        jenkins-nginx-network:
+                          #networks:
+                          #jenkins-nginx-network:
 
