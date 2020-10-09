@@ -12,7 +12,12 @@ esac
 BASE_COM="docker run --rm -it"
 
 for var in "$@"; do
-  BASE_COM+=" -v $var:/$var"
+  if ! docker inspect "$var" 1>/dev/null; then
+      exit 1
+  else
+    BASE_COM+=" -v $var:/$var"
+  fi
+
 done
 
 if [[ -n $IMAGE ]]; then
