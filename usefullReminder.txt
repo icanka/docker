@@ -18,3 +18,5 @@ create database testdb;
 use testdb;
 create table info (name varchar(20), lastname varchar(20), age int(2));
 
+
+FOR TEST COMMIT
