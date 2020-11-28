@@ -1,0 +1,40 @@
+jcmd -l 
+jcmd pid VM.system_properties
+jcmd pid VM.flags
+
+
+
+
+
+
+--------Xmx1g"-------                                  
+-XX:CICompilerCount=3                          
+-XX:InitialHeapSize=65011712                      
+-XX:MaxHeapSize=1073741824                              
+-XX:MaxNewSize=357564416                            
+-XX:MinHeapDeltaBytes=524288                         
+-XX:NewSize=21495808                             
+-XX:OldSize=43515904                               
+-XX:+UseCompressedClassPointers                    
+-XX:+UseCompressedOops                         
+-XX:+UseFastUnorderedTimeStamps                       
+-XX:+UseParallelGC                                       
+-----------------------
+
+
+-----------Xmx256m"----------
+-XX:CICompilerCount=3 
+-XX:InitialHeapSize=65011712 
+-XX:MaxHeapSize=268435456 
+-XX:MaxNewSize=89128960 
+-XX:MinHeapDeltaBytes=524288 
+-XX:NewSize=21495808 
+-XX:OldSize=43515904 
+-XX:+UseCompressedClassPointers 
+-XX:+UseCompressedOops 
+-XX:+UseFastUnorderedTimeStamps 
+-XX:+UseParallelGC
+
+
+
+

@@ -4,11 +4,11 @@ services:
         
         db_host:
                 container_name: db
-                image: mysql:5.7
+                image: mysql:8
                 environment:
                        - "MYSQL_ROOT_PASSWORD=1234"
                 volumes:
-                       - mysql-data:/var/lib/mysql
+                       - mysql-data-8:/var/lib/mysql
                 networks:
                        - jenkins-nginx-network
 
@@ -26,6 +26,8 @@ services:
                 image: jenkins/jenkins:2.249.1-lts-centos
                 privileged: true
                 user: root
+                #environment:
+                       #- "JAVA_OPTS=-Xmx256m"
                 ports:
                         - "50000:50000"
                           #container_name: jenkins-container
@@ -57,7 +59,7 @@ services:
 volumes:
         jenkins-log:
         jenkins-data:
-        mysql-data:
+        mysql-data-8:
 
 networks:
         jenkins-nginx-network:
