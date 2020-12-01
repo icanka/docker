@@ -1,0 +1,7 @@
+CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS                             PORTS                     NAMES
+a90d6bf41fb1        gitlab/gitlab-ce:13.4.1-ce.0   "/assets/wrapper"   48 seconds ago      Up 37 seconds (health: starting)   22/tcp, 80/tcp, 443/tcp   jenkins_gitlab_server.1.0exw0sq72ix269gbhdc07y7fj
+83362381f72a        gitlab/gitlab-ce:13.4.1-ce.0   "/assets/wrapper"   2 minutes ago       Exited (1) 48 seconds ago                                    jenkins_gitlab_server.1.ufm8blt5g37cldajq7p048ipv
+CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS                             PORTS                     NAMES
+f5f250520649        gitlab/gitlab-ce:13.4.1-ce.0   "/assets/wrapper"   21 seconds ago      Up 10 seconds (health: starting)   22/tcp, 80/tcp, 443/tcp   jenkins_gitlab_server.1.fhxpw5m3llm7pyafj2lnwp5g2
+a90d6bf41fb1        gitlab/gitlab-ce:13.4.1-ce.0   "/assets/wrapper"   2 minutes ago       Exited (1) 21 seconds ago                                    jenkins_gitlab_server.1.0exw0sq72ix269gbhdc07y7fj
+83362381f72a        gitlab/gitlab-ce:13.4.1-ce.0   "/assets/wrapper"   4 minutes ago       Exited (1) 2 minutes ago                                     jenkins_gitlab_server.1.ufm8blt5g37cldajq7p048ipv
