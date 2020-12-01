@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 services:
 
         
@@ -14,7 +14,7 @@ services:
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [ node.hostname == izzetcan-pc ]
+                                constraints: [ node.hostname == raflman-pc ]
 
 
 
@@ -28,7 +28,7 @@ services:
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [ node.hostname == izzetcan-pc ]
+                                constraints: [ node.hostname == raflman-pc ]
 
 
                   
@@ -54,7 +54,7 @@ services:
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [node.hostname == izzetcan-pc]
+                                constraints: [node.hostname == raflman-pc]
 
 
 
@@ -79,7 +79,7 @@ services:
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [ node.hostname == izzetcan-pc ]
+                                constraints: [ node.hostname == raflman-pc ]
                         restart_policy:
                                 condition: any
                                 delay: 5s
