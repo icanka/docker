@@ -12,7 +12,7 @@ services:
 
         nginx['ssl_certificate'] = "/etc/ssl/certs/localhost-self-signed.crt"
         nginx['ssl_certificate_key'] = "/etc/ssl/certs/localhost-self-signed.key"
-        nginx['custom_gitlab_server_config'] = "error_page 497 https://\$host:\$server_port\$request_uri;"
+        nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
 
         # Uncomment this if you want to install your certicate
         # https://docs.gitlab.com/omnibus/settings/ssl.html#details-on-how-gitlab-and-ssl-work
