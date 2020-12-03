@@ -1,29 +1,33 @@
-version: '3.7'
+version: '3.8'
 services:
 
-        gitlab_server:
-                image: 'gitlab/gitlab-ce:13.4.1-ce.0'
-                restart: always
-                hostname: "jenkins.local"
-                environment:
-                  GITLAB_OMNIBUS_CONFIG: |
-                    external_url "https://jenkins.local:8090"
-                    gitlab_rails['gitlab_shell_ssh_port'] = 23
-                    letsencrypt['enable'] = false
+  gitlab_server:
+    image: 'gitlab-ce:test'
+    restart: 'no'
+    hostname: "localhost"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "https://localhost:8090"
+        gitlab_rails['gitlab_shell_ssh_port'] = 23
 
-                    # Uncomment this if you want to install your certicate
-                    # https://docs.gitlab.com/omnibus/settings/ssl.html#details-on-how-gitlab-and-ssl-work                    
+        nginx['ssl_certificate'] = "/etc/ssl/certs/localhost-self-signed.crt"
+        nginx['ssl_certificate_key'] = "/etc/ssl/certs/localhost-self-signed.key"
+        #nginx['redirect_http_to_https'] = true
+        nginx['custom_gitlab_server_config'] = "error_page 497 https://\$host:\$server_port\$request_uri;"
 
+        # Uncomment this if you want to install your certicate
+        # https://docs.gitlab.com/omnibus/settings/ssl.html#details-on-how-gitlab-and-ssl-work
+        letsencrypt['enable'] = false
 
-                ports: 
-                        - '8090:8090'
-                        - '23:22'
-                volumes:
-                  - gitlab-etc:/etc/gitlab
-                  - gitlab-logs:/var/log/gitlab
-                  - gitlab-data:/var/opt/gitlab
-                networks:
-                  - jenkins-nginx-network
+    ports:
+      - '8090:8090'
+      - '23:22'
+    volumes:
+      - gitlab-etc:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
+    networks:
+      - jenkins-nginx-network
 
 volumes:
   gitlab-etc:
