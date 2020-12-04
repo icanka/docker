@@ -32,7 +32,7 @@ services:
                 volumes:
                         - jenkins-log:/var/log/jenkins
                         - jenkins-data:/var/jenkins_home
-
+                        - jenkins-java-ext-dirs:/usr/java/packages/lib/ext
                           #- certbot-conf:/etc/letsencrypt
                           #- certbot-www:/var/www/certbot
                           #- /var/run/docker.sock:/var/run/docker.sock
@@ -42,7 +42,6 @@ services:
 
                 depends_on:
                         - db_host
-                        - nginx
                         - gitlab_server
                         - remote_host
 
@@ -53,6 +52,12 @@ services:
                         - "443:443"
                 networks:
                         - jenkins-nginx-network
+
+                depends_on:
+                        - jenkins
+                        - db_host
+                        - gitlab_server
+                        - remote_host
         
                           # certbot:
                           # image: certbot/certbot
@@ -96,6 +101,7 @@ services:
 volumes:
         jenkins-log:
         jenkins-data:
+        jenkins-java-ext-dirs:
         mysql-data-8:
         gitlab-etc:
         gitlab-logs:
