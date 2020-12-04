@@ -12,8 +12,6 @@ services:
                 networks:
                        - jenkins-nginx-network
 
-
-
         remote_host:
                 container_name: remote-host
                 image: remote-host
@@ -41,6 +39,13 @@ services:
                           #- /usr/local/bin/docker:/usr/local/bin/docker
                 networks:
                         - jenkins-nginx-network
+
+                depends_on:
+                        - db_host
+                        - nginx
+                        - gitlab_server
+                        - remote_host
+
         nginx:
                 build: ./nginx
                 ports:
