@@ -13,8 +13,7 @@ services:
                        - jenkins-nginx-network
 
         remote_host:
-                container_name: remote-host
-                image: remote-host
+                image: jenkins-centos8
                 build:
                        context: centos8
                 networks:
@@ -46,7 +45,9 @@ services:
                         - remote_host
 
         nginx:
-                build: ./nginx
+                image:  jenkins-nginx
+                build:
+                        context: nginx
                 ports:
                         - "80:80"
                         - "443:443"
@@ -68,7 +69,9 @@ services:
                           # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
         gitlab_server:
-                image: 'gitlab-ce:test2'
+                image: jenkins-gitlab
+                build:
+                        context: gitlab
                 restart: 'no'
                 hostname: "jenkins.local"
                 environment:
