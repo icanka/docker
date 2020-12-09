@@ -9,23 +9,24 @@ services:
     hostname: "jenkins.local"
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url "https://jenkins.local:8090"
+        external_url "https://jenkins.local"
         gitlab_rails['gitlab_shell_ssh_port'] = 2222
 
-        nginx['ssl_certificate'] = "/etc/ssl/certs/jenkins-local.crt"
-        nginx['ssl_certificate_key'] = "/etc/ssl/certs/jenkins-local.key"
+        nginx['ssl_certificate'] = "/etc/ssl/certs/localhost-self-signed.crt"
+        nginx['ssl_certificate_key'] = "/etc/ssl/certs/localhost-self-signed.key"
         nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
 
         registry_external_url "https://jenkins.local:8091"
-        registry_nginx['ssl_certificate'] = "/etc/ssl/certs/jenkins-local.crt"
-        registry_nginx['ssl_certificate_key'] = "/etc/ssl/certs/jenkins-local.key"
+        registry_nginx['ssl_certificate'] = "/etc/ssl/certs/localhost-self-signed.crt"
+        registry_nginx['ssl_certificate_key'] = "/etc/ssl/certs/localhost-self-signed.key"
 
         # Uncomment this if you want to install your certicate
         # https://docs.gitlab.com/omnibus/settings/ssl.html#details-on-how-gitlab-and-ssl-work
         letsencrypt['enable'] = false
 
     ports:
-      - '8090:8090'
+      - '8080:8080'
+      - '443:443'
       - '8091:8091'
       - '2222:22'
     volumes:
