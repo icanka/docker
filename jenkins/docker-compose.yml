@@ -47,6 +47,10 @@ services:
                           #- /usr/local/bin/docker:/usr/local/bin/docker
                 networks:
                         - jenkins-nginx-network
+                depends_on:
+                        - db_host
+                        - gitlab_server
+                        - remote_host
                 deploy:
                         replicas: 1
                         placement:
