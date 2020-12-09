@@ -1,7 +1,6 @@
 version: '3.8'
 services:
 
-        
         db_host:
                 # container_name: db        // not supported by 'docker stack deploy'
                 image: mysql:8
@@ -16,8 +15,6 @@ services:
                         placement:
                                 constraints: [ node.hostname == raflman-pc ]
 
-
-
         remote_host:
                 #container_name: remote-host                 // not supported by 'docker stack deploy'
                 #build:
@@ -30,8 +27,6 @@ services:
                         placement:
                                 constraints: [ node.hostname == raflman-pc ]
 
-
-                  
         jenkins:
                 image: jenkins/jenkins:2.249.1-lts-centos
                 privileged: true
@@ -44,6 +39,7 @@ services:
                 volumes:
                         - jenkins-log:/var/log/jenkins
                         - jenkins-data:/var/jenkins_home
+                        - jenkins-java-ext-dirs:/usr/java/packages/lib/ext
 
                           #- certbot-conf:/etc/letsencrypt
                           #- certbot-www:/var/www/certbot
@@ -56,26 +52,18 @@ services:
                         placement:
                                 constraints: [node.hostname == raflman-pc]
 
-
-
         nginx:
-                # build: ./nginx            // not supported by 'docker stack deploy'
-                #build:
-                #        context: nginx
                 image: raflman/jenkins-nginx:multiple-host
                 ports:
                         - "80:80"
                         - "443:443"
                 networks:
                         - jenkins-nginx-network
-        
-                          # certbot:
-                          # image: certbot/certbot
-                          # restart: unless-stopped
-                          # volumes:
-                          # - certbot-conf:/etc/letsencrypt
-                          # - certbot-www:/var/www/certbot
-                          # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+                depends_on:
+                        - jenkins
+                        - db_host
+                        - gitlab_server
+                        - remote_host
                 deploy:
                         replicas: 1
                         placement:
@@ -84,56 +72,49 @@ services:
                                 condition: any
                                 delay: 10s
 
-
-
-
-
-
-
         gitlab_server:
-                image: raflman/gitlab-ce:latest
+                image: raflman/gitlab-ce:multiple-host
                 #restart: always
                 hostname: "jenkins.local"
                 environment:
                         GITLAB_OMNIBUS_CONFIG: |
                                 external_url "https://jenkins.local:8090"
-                                gitlab_rails['gitlab_shell_ssh_port'] = 23
+                                gitlab_rails['gitlab_shell_ssh_port'] = 2222
 
-                                # Uncomment this if you want to install your certicate
-                                # https://docs.gitlab.com/omnibus/settings/ssl.html#details-on-how-gitlab-and-ssl-work
+                                nginx['ssl_certificate'] = "/etc/ssl/certs/localhost.crt"
+                                nginx['ssl_certificate_key'] = "/etc/ssl/private/localhost.key"
+                                nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
+                                nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
+
+                                registry_external_url "https://jenkins.local:8091"
+                                registry_nginx['ssl_certificate'] = "/etc/ssl/certs/docker-registry.crt"
+                                registry_nginx['ssl_certificate_key'] = "/etc/ssl/private/docker-registry.key"
+                                registry_nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
+
                                 letsencrypt['enable'] = false
-
                 ports:
                         - '8090:8090'
-                        - '23:22'
+                        - '8091:8091'
+                        - '2222:22'
                 volumes:
                         - gitlab-etc:/etc/gitlab
                         - gitlab-logs:/var/log/gitlab
                         - gitlab-data:/var/opt/gitlab
                 networks:
                         - jenkins-nginx-network
-
-
-
                 deploy:
                         mode: global
-                        #replicas: 1
                         placement:
-                                constraints: [ node.hostname == izzetcan-pc ]
+                                constraints: [ node.hostname == raflman-pc ]
                         restart_policy:
                                 condition: none
                                 delay: 10s
                                 window: 300s
 
-
-
-
-
-
-
 volumes:
         jenkins-log:
         jenkins-data:
+        jenkins-java-ext-dirs:
         mysql-data-8:
         gitlab-etc:
         gitlab-logs:
