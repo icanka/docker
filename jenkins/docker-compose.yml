@@ -112,7 +112,7 @@ services:
                         placement:
                                 constraints: [ node.hostname == raflman-pc ]
                         restart_policy:
-                                condition: none
+                                #condition: none
                                 delay: 10s
                                 window: 300s
 
