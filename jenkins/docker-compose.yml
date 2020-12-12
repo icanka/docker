@@ -108,13 +108,28 @@ services:
                 networks:
                         - jenkins-nginx-network
                 deploy:
-                        mode: global
+                        #mode: global
                         placement:
-                                constraints: [ node.hostname == raflman-pc ]
+                                constraints: [ node.hostname == izzetcan-pc ]
                         restart_policy:
                                 #condition: none
                                 delay: 10s
                                 window: 300s
+
+        svn_server:
+                image: elleflorio/svn-server
+                volumes:
+                        - svn-repo-data:/home/svn/
+                        - svn-etc:/etc/subversion
+                ports:
+                        - "88:80"
+                        - "3690:3690"
+                networks:
+                        - jenkins-nginx-network
+                deploy:
+                        mode: global
+                        placement:
+                                constraints: [ node.hostname == raflman-pc ]
 
 volumes:
         jenkins-log:
@@ -124,6 +139,8 @@ volumes:
         gitlab-etc:
         gitlab-logs:
         gitlab-data:
+        svn-repo-data:
+        svn-etc:
 
 networks:
         jenkins-nginx-network:
