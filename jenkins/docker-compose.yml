@@ -117,7 +117,7 @@ services:
                                 window: 300s
 
         svn_server:
-                image: elleflorio/svn-server
+                image: raflman/svn-server:latest
                 volumes:
                         - svn-repo-data:/home/svn/
                         - svn-etc:/etc/subversion
