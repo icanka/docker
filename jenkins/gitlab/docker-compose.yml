@@ -2,7 +2,7 @@ version: '3.7'
 services:
 
         gitlab_server:
-                image: raflman/gitlab-test:latest
+                image: raflman/gitlab-ce:latest
                 restart: on-failure
                 hostname: "jenkins.local"
                 environment:

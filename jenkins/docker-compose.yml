@@ -77,7 +77,7 @@ services:
                                 delay: 10s
 
         gitlab_server:
-                image: raflman/gitlab-test:latest
+                image: raflman/gitlab-ce:multiple-host
                 #restart: always
                 hostname: "jenkins.local"
                 environment:
