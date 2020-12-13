@@ -1,0 +1,31 @@
+
+java -jar svn-migration-scripts.jar authors http://jenkins.local:88/svn/TEST  > authors.txt
+
+git svn clone --trunk=/trunk/test_dp --tags=/tags/test_dp --branches=/branches/test_dp http://jenkins.local:88/svn/TEST .
+git svn clone --trunk=/trunk/test_dp --tags=/tags/test_dp --branches=/branches/test_dp --authors-file=authors.txt http://jenkins.local:88/svn/TEST test_dp
+git svn fetch
+
+
+
+
+sudo apt-get install git-core git-svn ruby rubygems
+sudo gem install svn2git --source https://rubygems.org
+svn2git http://jenkins.local:88/svn/TEST --verbose --username raflman --trunk trunk/test_dp --tags /tags/test_dp --nobranches
+svn2git --rebase
+
+
+
+
+
+
+-------------------------------------------------------------
+REPO TO BARE REPO
+-------------------------------------------------------------
+cd repo
+mv .git ../repo.git # renaming just for clarity
+cd ..
+rm -fr repo
+cd repo.git
+git config --bool core.bare true
+-------------------------------------------------------------
+
