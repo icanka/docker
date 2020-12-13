@@ -77,7 +77,7 @@ services:
                                 delay: 10s
 
         gitlab_server:
-                image: gitlab-test
+                image: raflman/gitlab-test:latest
                 #restart: always
                 hostname: "jenkins.local"
                 environment:
@@ -108,11 +108,11 @@ services:
                 networks:
                         - jenkins-nginx-network
                 deploy:
-                        #mode: global
+                        mode: global
                         placement:
                                 constraints: [ node.hostname == izzetcan-pc ]
                         restart_policy:
-                                #condition: none
+                                condition: none
                                 delay: 10s
                                 window: 300s
 
