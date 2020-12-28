@@ -28,7 +28,7 @@ services:
                                 constraints: [ node.hostname == raflman-pc ]
 
         jenkins:
-                image: jenkins/jenkins:2.249.1-lts-centos
+                image: jenkins/jenkins:2.263.1-lts-centos
                 privileged: true
                 user: root
                 #environment:
