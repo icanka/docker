@@ -1,0 +1,55 @@
+3. TOPLANTILAR
+1) Sprint Planlama; Product backlog ile belirtilen gereksinimler, bu toplantı ile geliştirme takımı tarafından küçük görevlere ayrılır. Takımdaki her bir kişi kendi hızına göre bu görevleri kendilerine alır. Bu toplantıya ürün sahibi geliştirme takımı ve scrum ustası katılır. Sprintler; her sprint sonunda ürün sahibine sunulmak üzere yazılım geliştirmeyi hedefleyecek şekilde belirlenir. 1–3 haftalık sprintler oluşturulan haftalık toplantılardır.
+
+2) Günlük Scrum; Her iş günü başlamadan evvel 15 dakikalık bilgi paylaşımı için günlük Scrum toplantısı yapılır. Bu toplantı gelecek 24 saati planlamak üzere yapılır. . Bu görüşmede herhangi bir problem değerlendirilmez, takımdaki her üye dün ne yaptım,bugün ne yapacağım, işimi engelleyen herhangi bir sorun var mı sorularına cevap verir. Bu sayede herhangi bir sorun var ise scrum master bu problemi ortadan kaldırır. Eger belirtilen görev bir günde bitmesi mümkün değil ise, görev parçalanıp takıma dağıtılır. 
+
+Toplantı süresince bazı sorulara cevap bulanamadığı durumlarda Scrum ustası bunları not alıp bir sonraki toplantıya taşır. Daily scrum her ne koşulda olursa olsun yapılır. Takımdaki birinin geç kalması veya gelmemesi toplantıyı etkilemez. Sadece takımdaki büyük çoğunluk yok ise toplantı yapılmaz.
+
+3) Sprint Değerlendirmesi; Değerlendirme Sprint'in sonunda takım tarafından yapılır ve başlangıçta belirlenen hedeflerin kapsamında olup olmadığı Ürün sahibi tarafından değerlendirilir. Eğer teslim edilen işlevde eksiklik(test olmamış ise) var ise o kullanıcı hikâyesi tekrar dan, ürün sahibi tarafından ürün içeriğine(Product Backlog) gönderilir ve öncelik sırası verilir.
+Değerlendirmeye kullanıcının(User) katılımı da işlevin testi, ürün tasarımı ve kullanıcı bakışı açısından çok önemlidir. Kullanıcı Hıkayelerin de bir eksiklik var ise Scrum ustası tarafından not alınıp, ürün sahibi tarafından ürün içeriğine aktarılır.
+
+
+4)Sprint Retrospective (Geçmişe Bakış); 
+
+Geçmişe bakış toplantıları, Sprint Değerlendirme toplantılarından sonra ve Sprint Planlama toplantılarından önce yapılırlar ve geçmiş sprint'teki tecrübeler masaya yatırılarak iyileştirmeler belirlenir. Scrum yönteminin en önemli özelliklerinden birisi bu süreçte suçlu/suçsuz eleştirilerinin yapılmamasıdır.
+
+
+Sprint
+
+Sprint'de ürün geliştirilir. Yukarıda belirttilen her Sprint planlama, her Sprint başlangıcında yer alır. Planlamada belirtilen ürün islevleri, Sprint'in sonunda teslim edilir. Geliştirme ekibinin çalışmaları, görev panosu(Taskboard)na dayanır ve Kullanıcı hikayeleri önceliklerine göre ele alınıp, tüm takım bir hikâye üzerinde birlikte calışır, böylelikle katılımcılar hangi işlev'in geliştirildiğini bilir ve karşılıklı katkılarda bulunur.
+Sprint'in uygulama zamanı her zaman ayni olmalı ve uzatılmamalıdır. Bir Sprint en az bir hafta ve en fazla 4 hafta sürmelidir. Eğer hedeflenen sonuca Scrum sürecinde erişim mümkün değilse örneğin takım içerisinde çelişkilerin olması ya da taleplerin yanlış anlaşılması durumunda takım ya da ürün sahibi tarafından durdurulabilir.
+Sprint'in durdurulması durumunda inceleme yapılmaz retrospektif yapılır ve gelecek Sprint'in planlanması yapılır.
+
+Scrum'ın sınırları
+Başarı garantisi'nin olmaması
+
+Scrum da diğer süreç modelleri gibi az başarı garantisi sunar ve uygulamasıyla şeffaflık, düzenli ürün teslimatları oluşturur. Görülebilir engeller ile ürün adım adım geliştirilir ve gerektiğinde değiştirilebilir imkanlar sağlar. 
+
+
+
+Scrum'ın uygulanmasını çeşitli faktörler engelleyebilir. Geliştirme takımı hiyerarşik yapılanmanın tersine, kendi kendini organize etme ilkesiyle şekillenir. 
+Geliştirme takımı içindeki önceki konumlarından vazgeçmek istemeyen üyelerin olması çelişkilere yol açabileceğinden hareketle iç disiplinin bilince çıkarılması, görevlerin dış destek olmadan yapılması için önemlidir. Scrum'da proje ekibi sprint'deki tüm görevler üzerinde birlikte çalışırlar, böylelikle testci, yazılımcı, tasarımcı uyumu takıma yansır. Ancak deneyimli bir takım dezavantajları telafi edebilir. 
+
+Scrum'da, ürün iterasyonları tek bir sprintte tamamen geliştirilmeli ve test edilmelidir; Her sürüm için büyük miktarlarda regresyon testi veya güvenlik testi (örneğin, tıbbi cihazlar veya araç kontrolü) gerektiren ürünler, kısa sprintler için waterfall modeline göre daha az uygundur.
+
+Criticisms
+
+
+Gereksiz sık yapılan Scrum toplantıları üretkenliğe zarar verdiği ve daha iyi harcanabilecek zamanı boşa harcadığı durumlar söz konusu olabilmektedir. 
+Scrum uygulamaları, Çevik yazılım geliştirme ruhuna uygun şekilde uygulanmadığında, bir mikro yönetim biçimi olma eğilimindedir.
+
+Scrum ayrıca, belirli görevleri tamamlamak için gereken çaba miktarının çeşitli yöntemler kullanılarak doğru bir şekilde ölçülebileceğini varsayar, ancak çoğu zaman bu oldukça öngörülemez olabilmektedir.
+
+JIRA
+
+JIRA görev ve bug izleme, yazılım proje yönetimi gibi süreçleri bir arada yönetebilen bir platformdur. JIRA farklı ölçekteki işletmeler için de uygun olmakla birlikte takımlar, paydaşlar ve proje yöneticilerinin iş birliğini arttıran bir uygulamadır.
+JIRA Kanban ve Scrum gibi farklı agile pratikleri desteklemektedir. Şeffaflık (Visibility) takımların iş akışlarındaki uyumunu sağlayan en önemli unsurlardan biridir ve JIRA Agile bu süreci tam olarak karşılamaktadır.
+
+JIRA Agile detaylı planlama ve plana uygun tahminleme yapılabilmesine olanak vermektedir. Tüm buglar, görevler ve aktiviteler sürükle-bırak ile kolayca önceliklendirilebilir veya sipritnleri değiştirilebilir. Sprintlerin sonunda tamamlanan ve devam eden işlerle alakalı JIRA kapsamlı, grafiksel raporlar almaya olanak sağlamaktadır.
+
+https://www.scrum.org/resources/scrum-guide
+^ Jeff Sutherland, Ken Schwaber: The Scrum Guide 6 Ağustos 2012 tarihinde Wayback Machine sitesinde arşivlendi.. Abgerufen am 10. August 2011. S. 4.
+https://tr.wikipedia.org/wiki/Scrum
+https://www.pem360.com/blog/Agile/En-Iyi-Cevik-Yazilim-Urunlerinden-Biri-Olan-Jira-Softwaree-Hizli-Bakis/165
+
+
