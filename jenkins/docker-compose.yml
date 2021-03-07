@@ -6,6 +6,8 @@ services:
                 image: mysql:8
                 environment:
                        - "MYSQL_ROOT_PASSWORD=1234"
+                ports:
+                        - "3306:3306"
                 volumes:
                        - mysql-data-8:/var/lib/mysql
                 networks:
@@ -131,6 +133,19 @@ services:
                         placement:
                                 constraints: [ node.hostname == raflman-pc ]
 
+        nexus:
+                image: 'sonatype/nexus3:3.29.2'
+                volumes:
+                        - nexus-data:/nexus-data
+                ports:
+                        - '8081:8081'
+                deploy:
+                        mode: global
+                        placement:
+                                constraints: [ node.hostname == izzetcan-pc ]
+                networks:
+                        - jenkins-nginx-network
+
 volumes:
         jenkins-log:
         jenkins-data:
@@ -141,6 +156,7 @@ volumes:
         gitlab-data:
         svn-repo-data:
         svn-etc:
+        nexus-data:
 
 networks:
         jenkins-nginx-network:

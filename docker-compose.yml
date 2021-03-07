@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+
+  centos6-host:
+    container_name: centos6
+    build:
+           context: centos6-test
+    networks:
+      - repo-network
+
+    volumes:
+      - "centos6-opt:/opt"
+
+    ports:
+      - "80:80"
+
+  centos8-host:
+    container_name: centos8
+    build:
+           context: centos8-test
+    networks:
+      - repo-network
+
+    volumes:
+      - "centos8-opt:/opt"
+
+networks:
+  repo-network:
+
+volumes:
+  centos6-opt:
+  centos8-opt:
+
