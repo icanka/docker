@@ -63,6 +63,8 @@ services:
                 ports:
                         - "80:80"
                         - "443:443"
+                        - "8090:8090"
+                        - "8081:8081"
                 networks:
                         - jenkins-nginx-network
                 depends_on:
@@ -84,25 +86,29 @@ services:
                 hostname: "jenkins.local"
                 environment:
                         GITLAB_OMNIBUS_CONFIG: |
-                                external_url "https://jenkins.local:8090"
+                                external_url "http://jenkins.local:8091"
                                 gitlab_rails['gitlab_shell_ssh_port'] = 2222
                                 gitlab_rails['packages_enabled'] = true
-
-                                nginx['ssl_certificate'] = "/etc/ssl/certs/localhost.crt"
-                                nginx['ssl_certificate_key'] = "/etc/ssl/private/localhost.key"
-                                nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
+                                grafana['disable_login_form'] = false
+                                grafana['admin_password'] = 'admin'
+                                registry_external_url "http://jenkins.local:5050"
                                 nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
 
-                                registry_external_url "https://jenkins.local:8091"
-                                registry_nginx['ssl_certificate'] = "/etc/ssl/certs/docker-registry.crt"
-                                registry_nginx['ssl_certificate_key'] = "/etc/ssl/private/docker-registry.key"
-                                registry_nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
+#                                nginx['ssl_certificate'] = "/etc/ssl/certs/localhost.crt"
+#                                nginx['ssl_certificate_key'] = "/etc/ssl/private/localhost.key"
+#                                nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
+#                                nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
+#
 
-                                letsencrypt['enable'] = false
-                ports:
-                        - '8090:8090'
-                        - '8091:8091'
-                        - '2222:22'
+#                                registry_nginx['ssl_certificate'] = "/etc/ssl/certs/docker-registry.crt"
+#                                registry_nginx['ssl_certificate_key'] = "/etc/ssl/private/docker-registry.key"
+#                                registry_nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
+
+#                                letsencrypt['enable'] = false
+#                ports:
+#                        - '8090:8090'
+#                        - '8091:8091'
+#                        - '2222:22'
                 volumes:
                         - gitlab-etc:/etc/gitlab
                         - gitlab-logs:/var/log/gitlab
@@ -135,14 +141,18 @@ services:
 
         nexus:
                 image: 'sonatype/nexus3:3.29.2'
+
+#                environment:
+#                        - "NEXUS_CONTEXT=nexus"
+
                 volumes:
                         - nexus-data:/nexus-data
-                ports:
-                        - '8081:8081'
+#                ports:
+#                        - '8081:8081'
                 deploy:
                         mode: global
                         placement:
-                                constraints: [ node.hostname == izzetcan-pc ]
+                                constraints: [ node.hostname == raflman-pc ]
                 networks:
                         - jenkins-nginx-network
 
