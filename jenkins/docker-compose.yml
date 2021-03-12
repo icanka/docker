@@ -86,13 +86,12 @@ services:
                 hostname: "jenkins.local"
                 environment:
                         GITLAB_OMNIBUS_CONFIG: |
-                                external_url "http://jenkins.local:8091"
+                                external_url "http://gitlab"
                                 gitlab_rails['gitlab_shell_ssh_port'] = 2222
                                 gitlab_rails['packages_enabled'] = true
                                 grafana['disable_login_form'] = false
                                 grafana['admin_password'] = 'admin'
-                                registry_external_url "http://jenkins.local:5050"
-                                nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
+                                registry_external_url "http://gitlab:5050"
 
 #                                nginx['ssl_certificate'] = "/etc/ssl/certs/localhost.crt"
 #                                nginx['ssl_certificate_key'] = "/etc/ssl/private/localhost.key"
@@ -105,10 +104,10 @@ services:
 #                                registry_nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
 
 #                                letsencrypt['enable'] = false
-#                ports:
+                ports:
 #                        - '8090:8090'
 #                        - '8091:8091'
-#                        - '2222:22'
+                        - '2222:2222'
                 volumes:
                         - gitlab-etc:/etc/gitlab
                         - gitlab-logs:/var/log/gitlab
