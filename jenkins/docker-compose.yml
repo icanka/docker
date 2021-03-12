@@ -58,27 +58,7 @@ services:
                         placement:
                                 constraints: [node.hostname == raflman-pc]
 
-        nginx:
-                image: raflman/jenkins-nginx:multiple-host
-                ports:
-                        - "80:80"
-                        - "443:443"
-                        - "8090:8090"
-                        - "8081:8081"
-                networks:
-                        - jenkins-nginx-network
-                depends_on:
-                        - jenkins
-                        - db_host
-                        - gitlab_server
-                        - remote_host
-                deploy:
-                        replicas: 1
-                        placement:
-                                constraints: [ node.hostname == raflman-pc ]
-                        restart_policy:
-                                condition: any
-                                delay: 10s
+
 
         gitlab_server:
                 image: raflman/gitlab-ce:multiple-host
@@ -119,7 +99,7 @@ services:
                         placement:
                                 constraints: [ node.hostname == izzetcan-pc ]
                         restart_policy:
-                                condition: none
+                                condition: any
                                 delay: 10s
                                 window: 300s
 
@@ -154,6 +134,32 @@ services:
                                 constraints: [ node.hostname == raflman-pc ]
                 networks:
                         - jenkins-nginx-network
+
+
+        nginx:
+                image: raflman/jenkins-nginx:multiple-host
+                ports:
+                        - "80:80"
+                        - "443:443"
+                        - "8090:8090"
+                        - "8081:8081"
+                networks:
+                        - jenkins-nginx-network
+                depends_on:
+                        - gitlab_server
+                        - jenkins
+                        - db_host
+                        - remote_host
+                        - nexus
+                deploy:
+                        replicas: 1
+                        placement:
+                                constraints: [ node.hostname == raflman-pc ]
+                        restart_policy:
+                                condition: any
+                                delay: 10s
+
+
 
 volumes:
         jenkins-log:
