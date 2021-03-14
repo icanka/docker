@@ -1,6 +1,6 @@
-FROM gitlab/gitlab-ce:13.4.1-ce.0
+FROM gitlab/gitlab-ce:13.9.3-ce.0
 # Subgit version
-ENV SUBGIT_VERSION 3.3.10
+ENV SUBGIT_VERSION 3.3.11
 
 
 RUN openssl req -x509 -nodes -days 365 \
