@@ -1,4 +1,4 @@
-FROM gitlab/gitlab-ce:13.9.3-ce.0
+FROM gitlab/gitlab-ce:13.10.0-ce.0
 # Subgit version
 ENV SUBGIT_VERSION 3.3.11
 

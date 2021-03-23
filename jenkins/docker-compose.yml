@@ -120,7 +120,7 @@ services:
                                 constraints: [ node.hostname == raflman-pc ]
 
         nexus:
-                image: 'sonatype/nexus3:3.29.2'
+                image: 'sonatype/nexus3:3.30.0'
 
 #                environment:
 #                        - "NEXUS_CONTEXT=nexus"
@@ -140,10 +140,10 @@ services:
         nginx:
                 image: raflman/jenkins-nginx:multiple-host
                 ports:
-                        - "80:80"
                         - "443:443"
-                        - "8090:8090"
-                        - "8081:8081"
+#                        - "80:80"
+#                        - "8090:8090"
+#                        - "8081:8081"
                 networks:
                         - jenkins-nginx-network
                 depends_on:

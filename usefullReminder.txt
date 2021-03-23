@@ -19,4 +19,18 @@ use testdb;
 create table info (name varchar(20), lastname varchar(20), age int(2));
 
 
-FOR TEST COMMIT
+
+
+
+docker image save -o docker-images.tar ansible/awx:17.1.0 nginx:1.19.8 nginx:1.19.8-perl nginx:stable
+
+
+wget -r -np -nH -A "*.hpi" https://updates.jenkins-ci.org/latest/
+
+
+
+
+
+
+
+
