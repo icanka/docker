@@ -6,12 +6,12 @@ services:
                 restart: on-failure
                 environment:
                   GITLAB_OMNIBUS_CONFIG: |
-                          external_url "http://gitlab"
+                          external_url "http://localhost:8090"
                           gitlab_rails['gitlab_shell_ssh_port'] = 2222
                           gitlab_rails['packages_enabled'] = true
                           grafana['disable_login_form'] = false
                           grafana['admin_password'] = 'admin'
-                          registry_external_url "http://gitlab:5050"
+                          registry_external_url "http://localhost:5050"
 
 #                          external_url "https://localhost:8090"
 #                          gitlab_rails['gitlab_shell_ssh_port'] = 2222
@@ -40,6 +40,7 @@ services:
                   - '9090:9090'
                   - '8091:8091'
                   - '2222:22'
+                  - '5050:5050'
                 volumes:
                   - gitlab-etc:/etc/gitlab
                   - gitlab-logs:/var/log/gitlab
