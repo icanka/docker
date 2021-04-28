@@ -1,67 +1,25 @@
 version: '3.8'
 services:
 
-        db_host:
-                # container_name: db        // not supported by 'docker stack deploy'
-                image: mysql:8
-                environment:
-                       - "MYSQL_ROOT_PASSWORD=1234"
-                ports:
-                        - "3306:3306"
-                volumes:
-                       - mysql-data-8:/var/lib/mysql
-                networks:
-                       - jenkins-nginx-network
-                deploy:
-                        replicas: 1
-                        placement:
-                                constraints: [ node.hostname == raflman-pc ]
-
         remote_host:
-                #container_name: remote-host                 // not supported by 'docker stack deploy'
-                #build:
-                #       context: centos8
                 image: raflman/jenkins-centos8:multiple-host
                 networks:
                        - jenkins-nginx-network
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [ node.hostname == raflman-pc ]
+                                constraints: [ node.hostname == izzetcan-pc ]
 
-        jenkins:
-                image: jenkins/jenkins:2.263.1-lts-centos
-                #privileged: true
-                user: root
-                #environment:
-                       #- "JAVA_OPTS=-Xmx256m"
-                ports:
-                        - "50000:50000"
-                          #container_name: jenkins-container
-                volumes:
-                        - jenkins-log:/var/log/jenkins
-                        - jenkins-data:/var/jenkins_home
-                        - jenkins-java-ext-dirs:/usr/java/packages/lib/ext
-
-                          #- certbot-conf:/etc/letsencrypt
-                          #- certbot-www:/var/www/certbot
-                          #- /var/run/docker.sock:/var/run/docker.sock
-                          #- /usr/local/bin/docker:/usr/local/bin/docker
-                networks:
-                        - jenkins-nginx-network
-                depends_on:
-                        - db_host
-                        - gitlab_server
-                        - remote_host
-                deploy:
-                        replicas: 1
-                        placement:
-                                constraints: [node.hostname == raflman-pc]
-
-
+                        resources:
+                                limits:
+                                        memory: 1024M
+                                        cpus: '0.5'
+                                reservations:
+                                        memory: 128M
+                                        cpus: '0.20'
 
         gitlab_server:
-                image: raflman/gitlab-ce:multiple-host
+                image: raflman/gitlab-ce-subgit:13.10.4
                 environment:
                         GITLAB_OMNIBUS_CONFIG: |
                                 external_url "http://gitlab"
@@ -71,22 +29,8 @@ services:
                                 grafana['admin_password'] = 'admin'
                                 registry_external_url "http://gitlab:5050"
 
-#                                nginx['ssl_certificate'] = "/etc/ssl/certs/localhost.crt"
-#                                nginx['ssl_certificate_key'] = "/etc/ssl/private/localhost.key"
-#                                nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
-#                                nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
-#
-
-#                                registry_nginx['ssl_certificate'] = "/etc/ssl/certs/docker-registry.crt"
-#                                registry_nginx['ssl_certificate_key'] = "/etc/ssl/private/docker-registry.key"
-#                                registry_nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
-
-#                                letsencrypt['enable'] = false
                 ports:
                         - '2222:22'
-#                        - '8090:8090'
-#                        - '8091:8091'
-
                 volumes:
                         - gitlab-etc:/etc/gitlab
                         - gitlab-logs:/var/log/gitlab
@@ -102,75 +46,43 @@ services:
                                 delay: 10s
                                 window: 300s
 
-        svn_server:
-                image: elleflorio/svn-server
-                volumes:
-                        - svn-repo-data:/home/svn/
-                        - svn-etc:/etc/subversion
-                ports:
-                        - "88:80"
-                        - "3690:3690"
-                networks:
-                        - jenkins-nginx-network
-                deploy:
-                        mode: global
-                        placement:
-                                constraints: [ node.hostname == raflman-pc ]
-
-        nexus:
-                image: 'sonatype/nexus3:3.30.0'
-
-#                environment:
-#                        - "NEXUS_CONTEXT=nexus"
-
-                volumes:
-                        - nexus-data:/nexus-data
-#                ports:
-#                        - '8081:8081'
-                deploy:
-                        mode: global
-                        placement:
-                                constraints: [ node.hostname == raflman-pc ]
-                networks:
-                        - jenkins-nginx-network
-
+                        resources:
+                                limits:
+                                        memory: 4096M
+                                        cpus: '2'
+                                reservations:
+                                        memory: 2048M
+                                        cpus: '1'
 
         nginx:
-                image: raflman/jenkins-nginx:multiple-host
+                image: raflman/nginx:gitlab
                 ports:
                         - "443:443"
                         - "80:80"
-#                        - "8090:8090"
-#                        - "8081:8081"
                 networks:
                         - jenkins-nginx-network
                 depends_on:
                         - gitlab_server
-                        - jenkins
-                        - db_host
-                        - remote_host
-                        - nexus
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [ node.hostname == raflman-pc ]
+                                constraints: [ node.hostname == izzetcan-pc ]
                         restart_policy:
                                 condition: any
-                                delay: 10s
-
+                                delay: 20s
+                        resources:
+                                limits:
+                                        memory: 1024M
+                                        cpus: '0.5'
+                                reservations:
+                                        memory: 512M
+                                        cpus: '0.20'
 
 
 volumes:
-        jenkins-log:
-        jenkins-data:
-        jenkins-java-ext-dirs:
-        mysql-data-8:
         gitlab-etc:
         gitlab-logs:
         gitlab-data:
-        svn-repo-data:
-        svn-etc:
-        nexus-data:
 
 networks:
         jenkins-nginx-network:
