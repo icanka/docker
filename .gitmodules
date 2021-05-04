@@ -1,0 +1,4 @@
+[submodule "jenkins/python-gitlab"]
+	path = jenkins/python-gitlab
+	url = git@github.com:icanka/python-gitlab.git
+	branch = downstream
