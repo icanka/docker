@@ -76,6 +76,35 @@ services:
                                         cpus: '0.5'
                                 reservations:
                                         memory: 512M
+                                        cpus: '0.10'
+
+
+        python_gitlab:
+                image: python-gitlab:v2.7.1-downstream
+                entrypoint: 'tail -f /dev/null'
+                environment:
+                        GITLAB_CFG: '/etc/python-gitlab.cfg'
+
+                volumes:
+                        - './python-gitlab.cfg:/etc/python-gitlab.cfg'
+
+                networks:
+                        - jenkins-nginx-network
+                depends_on:
+                        - gitlab_server
+                deploy:
+                        replicas: 1
+                        placement:
+                                constraints: [ node.hostname == izzetcan-pc ]
+                        restart_policy:
+                                condition: any
+                                delay: 20s
+                        resources:
+                                limits:
+                                        memory: 1024M
+                                        cpus: '0.5'
+                                reservations:
+                                        memory: 512M
                                         cpus: '0.20'
 
 
