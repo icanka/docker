@@ -36,8 +36,8 @@ git remote show <remote>								Show information about a remote
 
 
 
-
-
+git fetch origin pull/79/head:79;git checkout 79        Fetch and checkout and pull-request
+                 
 
 
 -------------------GIT SUBMODULES REMOVAL PROCESS----------------------
@@ -155,6 +155,7 @@ git submodule update --init
 
 
 ----------------------------------------------------------------------------------------------------------------------------
+
 
 
 
