@@ -28,6 +28,9 @@ docker image save -o docker-images.tar ansible/awx:17.1.0 nginx:1.19.8 nginx:1.1
 
 download jenkins plugins
 wget -r -np -nH -A "*.hpi" https://updates.jenkins-ci.org/latest/
+other links to be observed
+https://updates.jenkins.io/download/plugins/git/
+https://updates.jenkins-ci.org/current/
 
 
 
