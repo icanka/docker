@@ -1,2 +1,2 @@
-[submodule "git@github.com:icanka/gitlab-license.git"]
-	url = gitlab-license/
+[submodule "jenkins/gitlab/gitlab-license"]
+	url = git@github.com:icanka/gitlab-license.git
