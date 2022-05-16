@@ -2,12 +2,12 @@ version: '3.7'
 services:
 
         gitlab_server:
-                image: 'gitlab/gitlab-ce:13.4.1-ce.0'
+                image: 'gitlab/gitlab-ee:13.9.7-ee.0'
                 restart: always
                 hostname: "jenkins.local"
                 environment:
                   GITLAB_OMNIBUS_CONFIG: |
-                    external_url "https://jenkins.local:8090"
+                    external_url "https://europa.local:8090"
                     gitlab_rails['gitlab_shell_ssh_port'] = 23
 
                     # Uncomment this if you want to install your certicate

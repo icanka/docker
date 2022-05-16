@@ -1,0 +1,2 @@
+[submodule "git@github.com:icanka/gitlab-license.git"]
+	url = gitlab-license/
