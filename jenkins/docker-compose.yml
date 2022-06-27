@@ -131,6 +131,7 @@ services:
                         mode: global
                         placement:
                         constraints: [ node.hostname == izzetcan-pc ]
+
                 networks:
                         - jenkins-nginx-network
 
