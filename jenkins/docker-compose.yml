@@ -15,7 +15,7 @@ services:
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [ node.hostname == raflman-pc ]
+                                constraints: [ node.hostname == izzetcan-pc ]
 
         remote_host:
                 #container_name: remote-host                 // not supported by 'docker stack deploy'
@@ -27,7 +27,7 @@ services:
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [ node.hostname == raflman-pc ]
+                                constraints: [ node.hostname == izzetcan-pc ]
 
         jenkins:
                 image: jenkins/jenkins:2.263.1-lts-centos
@@ -56,7 +56,7 @@ services:
                 deploy:
                         replicas: 1
                         placement:
-                                constraints: [node.hostname == raflman-pc]
+                                constraints: [node.hostname == izzetcan-pc]
 
 
 
@@ -117,7 +117,7 @@ services:
                 deploy:
                         mode: global
                         placement:
-                                constraints: [ node.hostname == raflman-pc ]
+                                constraints: [ node.hostname == izzetcan-pc ]
 
         nexus:
                 image: 'sonatype/nexus3:3.30.0'
@@ -132,7 +132,7 @@ services:
                 deploy:
                         mode: global
                         placement:
-                                constraints: [ node.hostname == raflman-pc ]
+                                constraints: [ node.hostname == izzetcan-pc ]
                 networks:
                         - jenkins-nginx-network
 
@@ -141,7 +141,7 @@ services:
                 image: raflman/jenkins-nginx:multiple-host
                 ports:
                         - "443:443"
-#                        - "80:80"
+                        - "80:80"
 #                        - "8090:8090"
 #                        - "8081:8081"
                 networks:
