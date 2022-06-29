@@ -1,0 +1,72 @@
+version: '3'
+
+services:
+  jira:
+    depends_on:
+      - postgresql
+    image: teamatldocker/jira:8.22.1
+    networks:
+      - jiranet
+    volumes:
+      - jiradata8-13:/var/atlassian/jira
+    ports:
+      - '80:8080'
+    environment:
+      - 'JIRA_DATABASE_URL=postgresql://jira@postgresql/jiradb'
+      - 'JIRA_DB_PASSWORD=jellyfish'
+      - 'SETENV_JVM_MINIMUM_MEMORY=2048m'
+      - 'SETENV_JVM_MAXIMUM_MEMORY=4096m'
+      - 'JIRA_PROXY_NAME='
+      - 'JIRA_PROXY_PORT='
+      - 'JIRA_PROXY_SCHEME='
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+
+  postgresql:
+    image: postgres:12
+    networks:
+      - jiranet
+    volumes:
+      - postgresqldata12:/var/lib/postgresql/data
+    environment:
+      - 'POSTGRES_USER=jira'
+      # CHANGE THE PASSWORD!
+      - 'POSTGRES_PASSWORD=jellyfish'
+      - 'POSTGRES_DB=jiradb'
+      - 'POSTGRES_ENCODING=UNICODE'
+      - 'POSTGRES_COLLATE=C'
+      - 'POSTGRES_COLLATE_TYPE=C'
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+
+  nginx:
+    image: nginx
+    volumes:
+      - "./nginx.conf:/etc/nginx/nginx.conf"
+      - "./jira.conf:/etc/nginx/conf.d/jira.conf"
+      - "./nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt"
+      - "./nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key"
+      - "./dhparam.pem:/etc/ssl/certs/dhparam.pem"
+    ports:
+      - "443:443"
+    networks:
+      - jiranet
+
+
+volumes:
+  jiradata8-13:
+    external: false
+  postgresqldata12:
+    external: false
+
+networks:
+  jiranet:
+    driver: bridge
