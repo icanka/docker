@@ -10,6 +10,8 @@ services:
       - jiranet
     volumes:
       - jiradata:/var/atlassian/jira
+      - ./atlassian-agent-master/target/atlassian-agent-jar-with-dependencies.jar:/atlassian-agent-jar-with-dependencies.jar
+      - ./setenv.sh:/opt/atlassian/jira/bin/setenv.sh
     ports:
       - '8001:8080'
     environment:
