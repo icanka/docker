@@ -1,0 +1,65 @@
+Instructions for use
+Advantage
+
+    Supports almost all Atlassian products, and supports plug-ins (including third-party plug-ins in the plug-in market).
+    Support DataCenter mode.
+    Compared with traditional crack, it is easy to upgrade your service without having to re-crack.
+    Provides a java-based command line keygen, which is more convenient to use in the terminal environment.
+    Open source project, you know what you do when you crack it.
+
+Download
+
+    Download the release package of this project directly.
+
+compile it yourself
+
+    Clone the source code of this project, and the pom.xml mvn packagecan be compiled after the same level directory is executed.
+    Use targetthe output of the directory atlassian-agent-jar-with-dependencies.jar, not atlassian-agent.jar!
+    If you don't know what I'm talking about, it's better to just download my compiled package.
+
+Using help
+
+    Cracking needs to be used in a complete set. You can't just crack the plug-in, you must first use the atlassian-agent.jarcracking service.
+    If you've got atlassian-agent.jarit, try executing and java -jar atlassian-agent.jarsee the output for help.
+    The help here takes Atlassian's Confluence service as an example.
+
+Configure Agent
+
+    Will be atlassian-agent.jarin a location that you won't delete casually (all Atlassian services on your server can share the same one atlassian-agent.jar).
+    Set the environment variable JAVA_OPTS(this is actually the environment variable of Java, used to specify the parameters attached when it starts the java program), and attach the -javaagentparameters. Specifically, you can do this:
+        You can put: export JAVA_OPTS="-javaagent:/path/to/atlassian-agent.jar ${JAVA_OPTS}"such a command into .bashrcor .bash_profilesuch a file.
+        You can put export JAVA_OPTS="-javaagent:/path/to/atlassian-agent.jar ${JAVA_OPTS}"a command like : in or bin目录under where the service is installed .setenv.shsetenv.bat（供windows使用）
+        You can also execute directly from the command line: JAVA_OPTS="-javaagent:/path/to/atlassian-agent.jar" /path/to/start-confluence.shto start your service.
+        Or any other way you know of modifying environment variables, but if you have unrelated services on your machine, modifying global JAVA_OPTSenvironment variables is not recommended.
+        In short you find a way to attach -javaagentparameters to the java process to be started.
+    After the configuration is complete, please restart your Confluence service.
+    If you want to verify that the configuration was successful, you can do this:
+        Execute a similar command: ps aux|grep javafind the corresponding process and see if the -javaagentparameters are attached correctly.
+        In the software installation directory similar to: /path/to/confluence/logs/catalina.outTomcat log should be able to find ========= agent working =========the output of the words :.
+
+Using KeyGen
+
+    You have to confirm that the agent has been configured, refer to the above instructions.
+    java -jar /path/to/atlassian-agent.jarYou should see the KeyGen parameter help in the output when you try to execute it.
+    Please take a closer look at the role of each parameter, especially the -pparameter's value range. -pThe parameter content is best to be enclosed in quotation marks, otherwise it may affect parameter parsing.
+    Third-party plugins take it 应用密钥/插件关键字as a -pparameter. like:-p 'com.gliffy.integration.confluence'
+    You should see AAAA-BBBB-CCCC-DDDDa server id similar to: when the Atlassian service is installed, please pay attention.
+    Running KeyGen with the correct parameters will output the calculated activation code in the terminal.
+    Copy the generated activation code to activate the service you want to use.
+    Take a chestnut:java -jar atlassian-agent.jar -p conf -m aaa@bbb.com -n my_name -o https://zhile.io -s ABCD-1234-EFGH-5678
+
+declare
+
+    This project is only for personal study and research, not for commercial use!
+    For commercial use, please purchase genuine copies from Atlassian , thank you for your cooperation!
+    This project uses an GNU General Public License v3.0open source license!
+    It's not allowed to say that my code is bad, for me it PHP's the best language in the world (no argument).
+
+comminicate
+
+    Send an issue to this project.
+    You are welcome to improve this project together, please send PR.
+    You can join the QQ group: 30347511 to communicate with me in real time.
+    Visit the website: https://zhile.io Leave me a message.
+
+Enthusiastic netizen tutorial (thanks to the original author, invaded and deleted!)
