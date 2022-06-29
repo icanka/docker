@@ -1,0 +1,4 @@
+[submodule "gitlab-license"]
+	path = jenkins/gitlab/gitlab-license
+	url = git@github.com:icanka/gitlab-license.git
+	branch = main

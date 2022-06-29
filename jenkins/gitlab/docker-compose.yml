@@ -1,6 +1,7 @@
 version: '3.7'
 services:
 
+<<<<<<< HEAD
   gitlab_server:
     image: 'jenkins-gitlab'
     build:
@@ -41,7 +42,42 @@ volumes:
   gitlab-etc:
   gitlab-logs:
   gitlab-data:
+=======
+        gitlab_server:
+#                image: raflman/gitlab-ce:multiple-host
+                image: gitlab-test:21KAS
+                restart: on-failure
+                environment:
+                  GITLAB_OMNIBUS_CONFIG: |
+                          letsencrypt['enable'] = false
+                          external_url "https://gitlab:8090"
+                          gitlab_rails['gitlab_shell_ssh_port'] = 2222
+                          nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
+                          nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
+
+                ports:
+                  - '8090:8090'
+                  - '9090:9090'
+                  - '8091:8091'
+                  - '2222:22'
+                  - '5050:5050'
+                volumes:
+                  - /home/izzetcan/Documents/gitlab-data/etc:/etc/gitlab
+                  - /home/izzetcan/Documents/gitlab-data/logs:/var/log/gitlab
+                  - /home/izzetcan/Documents/gitlab-data/data:/var/opt/gitlab
+                networks:
+                  - jenkins-nginx-network
+
+# volumes:
+#   gitlab-etc:
+#   gitlab-logs:
+#   gitlab-data:
+>>>>>>> multiple-host
 
 networks:
   jenkins-nginx-network:
 
+<<<<<<< HEAD
+=======
+d
+>>>>>>> multiple-host

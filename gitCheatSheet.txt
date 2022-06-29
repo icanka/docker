@@ -1,0 +1,162 @@
+git commit -a                                           Commit only the modified and deleted files
+git add -u             									Stage modified and deleted files
+git add -A 												Stage all files
+git add . 												Stage new and modified, without deleted
+git status   											Changed files in yoru working directory
+git diff     											Changes to tracked files
+git add -p <file>  										Add some changes in <file> to the next commit
+git commit                                              Commit previously staged changes.
+git commit --amend										Change the last commit
+
+git branch -av											List all existing branches
+git checkout <branch>									Switch HEAD branch
+git branch <new-branch>                                 Create new branch based on your current HEAD
+git branch -d <branch>									Delete a local branch
+
+
+git merge <branch>										Merge <branch> into your current HEAD
+
+
+git reset --hard HEAD 									Discard all local changes in your working directory
+git checkout HEAD <file>								Discard local changes in a specific file
+git revert <commit>										Revert a commit
+git reset --hard <commit>								Reset your HEAD pointer to a previous commit and discard all changes since then
+git reset <commit>										...preserve all changes as unstaged changes.
+git reset --keep <commit>								...preserve uncommmitted local changes.
+
+
+
+git push <remote> <branch>  						    Publish local changes on a remote
+git branch -dr <remote/branch>							Delete a branch on the remote
+git pull <remote> <branch> 								Download changes and directly merge/integrate into HEAD
+git fetch <remote>										Download all changes from <remote> but don't integrate into HEAD
+git remote add <shortname> <url>						Add a new repository named remote
+git remote -v											List all currently configured remotes.
+git remote show <remote>								Show information about a remote
+
+
+
+git fetch origin pull/79/head:79;git checkout 79        Fetch and checkout and pull-request
+                 
+
+
+-------------------GIT SUBMODULES REMOVAL PROCESS----------------------
+git submodule deinit <asubmodule>    
+git rm <asubmodule>
+
+# Note: asubmodule (no trailing slash)
+# or, if you want to leave it in your working tree
+git rm --cached <asubmodule>
+rm -rf .git/modules/<asubmodule>
+-----------------------------------------------------------------------
+
+----------------------------SUBMODULES---------------------------------
+# add a submodule
+git submodule add <url>
+
+# Track stable branch in DbConnector submodule
+git config -f .gitmodules submodule.DbConnector.branch stable
+
+# If you set the configuration setting status.submodulesummary, Git will also show you 
+# a short summary of changes to your submodules:
+git config status.submodulesummary 1
+
+# By default, the git pull command recursively fetches submodules changes.
+# However, it does not update the submodules.To finalize the update, 
+git submodule update --init --recursive
+-----------------------------------------------------------------------
+
+
+
+
+------------------------------------------WORKING WITH SUBMODULES-------------------------------------------------------
+
+# So far, when we’ve run the git submodule update command to fetch changes from the submodule repositories, 
+# Git would get the changes and update the files in the subdirectory but will leave the sub-repository in 
+# what’s called a “detached HEAD” state. This means that there is no local working branch (like master,
+# for example) tracking changes. With no working branch tracking changes, that means even if you commit 
+# changes to the submodule, those changes will quite possibly be lost the next time you run git submodule update. 
+# You have to do some extra steps if you want changes in a submodule to be tracked.
+
+# In order to set up your submodule to be easier to go in and hack on, you need to do two things. You need to go
+# into each submodule and check out a branch to work on. Then you need to tell Git what to do if you have made
+# changes and then git submodule update --remote pulls in new work from upstream. The options are that you can 
+# merge them into your local work, or you can try to rebase your local work on top of the new changes.
+
+# First of all, let’s go into our submodule directory and check out a branch.
+
+$ cd DbConnector/
+$ git checkout stable
+Switched to branch 'stable'
+
+# Let’s try updating our submodule with the “merge” option. To specify it manually, we can just add the --merge option 
+# to our update call. Here we’ll see that there was a change on the server for this submodule and it gets merged in.
+
+$ cd ..
+$ git submodule update --remote --merge
+
+# If we go into the DbConnector directory, we have the new changes already merged into our local stable branch.
+# Now let’s see what happens when we make our own local change to the library and someone else pushes another 
+# change upstream at the same time.
+
+$ cd DbConnector/
+$ vim src/db.c
+$ git commit -am 'Unicode support'
+
+# Now if we update our submodule we can see what happens when we have made a local change and upstream also has a 
+# change we need to incorporate.
+
+$ cd ..
+$ git submodule update --remote --rebase
+
+# If you forget the --rebase or --merge, Git will just update the submodule to whatever is on the server and
+# reset your project to a detached HEAD state.
+
+$ git submodule update --remote
+
+# If this happens, don’t worry, you can simply go back into the directory and check out your branch again 
+# (which will still contain your work) and merge or rebase origin/stable (or whatever remote branch you want) manually.
+# If you haven’t committed your changes in your submodule and you run a submodule update that would cause issues,
+# Git will fetch the changes but not overwrite unsaved work in your submodule directory.
+
+
+# It's a little confusing to get used to this, but submodules are not on a branch. They are, like you say, just a pointer
+# to a particular commit of the submodule's repository.
+# This means, when someone else checks out your repository, or pulls your code, and does git submodule update, the submodule 
+# is checked out to that particular commit.
+# This is great for a submodule that does not change often, because then everyone on the project can have the submodule at
+# the same commit.
+# If you want to move the submodule to a particular tag:
+
+cd submodule_directory
+git checkout v1.0
+cd ..
+git add submodule_directory
+git commit -m "moved submodule to v1.0"
+git push
+
+# Then, another developer who wants to have submodule_directory changed to that tag, does this
+
+git pull
+git submodule update --init
+
+# git pull changes which commit their submodule directory points to. git submodule update actually merges in the new code.
+
+# Once submodules are properly initialized and updated within a parent repository they can be utilized exactly like stand-alone
+# repositories. This means that submodules have their own branches and history. When making changes to a submodule it is
+# important to publish submodule changes and then update the parent repositories reference to the submodule.
+
+# Parent repository doesn't go into detail about the specific updates because that is the submodule repositories responsibility.
+# The parent repository is only concerned with pinning the submodule to a commit. we can update the parent repository again by doing
+# a git add and git commit on the submodule. This will put everything into a good state with the local content. If you are working 
+# in a team environment it is critical that you then git push the submodule updates, and the parent repository updates.
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+

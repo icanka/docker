@@ -1,27 +1,45 @@
-version: '3.7'
+version: '3.8'
 services:
 
-        
         db_host:
-                container_name: db
+                # container_name: db        // not supported by 'docker stack deploy'
                 image: mysql:8
                 environment:
                        - "MYSQL_ROOT_PASSWORD=1234"
+                ports:
+                        - "3306:3306"
                 volumes:
                        - mysql-data-8:/var/lib/mysql
                 networks:
                        - jenkins-nginx-network
+<<<<<<< HEAD
 
         remote_host:
                 image: jenkins-centos8
                 build:
                        context: centos8
+=======
+                deploy:
+                        replicas: 1
+                        placement:
+                                constraints: [ node.hostname == izzetcan-pc ]
+
+        remote_host:
+                #container_name: remote-host                 // not supported by 'docker stack deploy'
+                #build:
+                #       context: centos8
+                image: raflman/jenkins-centos8:multiple-host
+>>>>>>> multiple-host
                 networks:
                        - jenkins-nginx-network
-                  
+                deploy:
+                        replicas: 1
+                        placement:
+                                constraints: [ node.hostname == izzetcan-pc ]
+
         jenkins:
-                image: jenkins/jenkins:2.249.1-lts-centos
-                privileged: true
+                image: jenkins/jenkins:2.263.1-lts-centos
+                #privileged: true
                 user: root
                 #environment:
                        #- "JAVA_OPTS=-Xmx256m"
@@ -32,27 +50,73 @@ services:
                         - jenkins-log:/var/log/jenkins
                         - jenkins-data:/var/jenkins_home
                         - jenkins-java-ext-dirs:/usr/java/packages/lib/ext
+<<<<<<< HEAD
+=======
+
+>>>>>>> multiple-host
                           #- certbot-conf:/etc/letsencrypt
                           #- certbot-www:/var/www/certbot
                           #- /var/run/docker.sock:/var/run/docker.sock
                           #- /usr/local/bin/docker:/usr/local/bin/docker
                 networks:
                         - jenkins-nginx-network
+<<<<<<< HEAD
 
+=======
+>>>>>>> multiple-host
                 depends_on:
                         - db_host
                         - gitlab_server
                         - remote_host
+<<<<<<< HEAD
 
         nginx:
                 image:  jenkins-nginx
                 build:
                         context: nginx
+=======
+                deploy:
+                        replicas: 1
+                        placement:
+                                constraints: [node.hostname == izzetcan-pc]
+
+
+
+        gitlab_server:
+                image: raflman/gitlab-ce:multiple-host
+                environment:
+                        GITLAB_OMNIBUS_CONFIG: |
+                                external_url "http://gitlab"
+                                gitlab_rails['gitlab_shell_ssh_port'] = 2222
+                                gitlab_rails['packages_enabled'] = true
+                                grafana['disable_login_form'] = false
+                                grafana['admin_password'] = 'admin'
+                                registry_external_url "http://gitlab:5050"
+
+#                                nginx['ssl_certificate'] = "/etc/ssl/certs/localhost.crt"
+#                                nginx['ssl_certificate_key'] = "/etc/ssl/private/localhost.key"
+#                                nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
+#                                nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
+#
+
+#                                registry_nginx['ssl_certificate'] = "/etc/ssl/certs/docker-registry.crt"
+#                                registry_nginx['ssl_certificate_key'] = "/etc/ssl/private/docker-registry.key"
+#                                registry_nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
+
+#                                letsencrypt['enable'] = false
+>>>>>>> multiple-host
                 ports:
-                        - "80:80"
-                        - "443:443"
+                        - '2222:22'
+#                        - '8090:8090'
+#                        - '8091:8091'
+
+                volumes:
+                        - gitlab-etc:/etc/gitlab
+                        - gitlab-logs:/var/log/gitlab
+                        - gitlab-data:/var/opt/gitlab
                 networks:
                         - jenkins-nginx-network
+<<<<<<< HEAD
 
                 depends_on:
                         - jenkins
@@ -103,6 +167,76 @@ services:
                         - gitlab-data:/var/opt/gitlab
                 networks:
                         - jenkins-nginx-network
+=======
+                deploy:
+                        mode: global
+                        placement:
+                                constraints: [ node.hostname == izzetcan-pc ]
+                        restart_policy:
+                                condition: any
+                                delay: 10s
+                                window: 300s
+
+        svn_server:
+                image: elleflorio/svn-server
+                volumes:
+                        - svn-repo-data:/home/svn/
+                        - svn-etc:/etc/subversion
+                ports:
+                        - "88:80"
+                        - "3690:3690"
+                networks:
+                        - jenkins-nginx-network
+                deploy:
+                        mode: global
+                        placement:
+                                constraints: [ node.hostname == izzetcan-pc ]
+
+        nexus:
+                image: 'sonatype/nexus3:3.30.0'
+
+#                environment:
+#                        - "NEXUS_CONTEXT=nexus"
+
+                volumes:
+                        - nexus-data:/nexus-data
+#                ports:
+#                        - '8081:8081'
+                deploy:
+                        mode: global
+                        placement:
+                        constraints: [ node.hostname == izzetcan-pc ]
+
+                networks:
+                        - jenkins-nginx-network
+
+
+        nginx:
+                image: raflman/jenkins-nginx:multiple-host
+                ports:
+                        - "443:443"
+                        - "80:80"
+#                        - "8090:8090"
+#                        - "8081:8081"
+                networks:
+                        - jenkins-nginx-network
+                depends_on:
+                        - gitlab_server
+                        - jenkins
+                        - db_host
+                        - remote_host
+                        - nexus
+                deploy:
+                        replicas: 1
+                        placement:
+                                constraints: [ node.hostname == izzetcan-pc ]
+                        restart_policy:
+                                condition: any
+                                delay: 10s
+
+
+
+>>>>>>> multiple-host
 volumes:
         jenkins-log:
         jenkins-data:
@@ -111,6 +245,12 @@ volumes:
         gitlab-etc:
         gitlab-logs:
         gitlab-data:
+<<<<<<< HEAD
+=======
+        svn-repo-data:
+        svn-etc:
+        nexus-data:
+>>>>>>> multiple-host
 
 networks:
         jenkins-nginx-network:
