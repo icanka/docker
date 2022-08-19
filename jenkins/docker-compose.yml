@@ -12,13 +12,6 @@ services:
                        - mysql-data-8:/var/lib/mysql
                 networks:
                        - jenkins-nginx-network
-<<<<<<< HEAD
-
-        remote_host:
-                image: jenkins-centos8
-                build:
-                       context: centos8
-=======
                 deploy:
                         replicas: 1
                         placement:
@@ -29,7 +22,6 @@ services:
                 #build:
                 #       context: centos8
                 image: raflman/jenkins-centos8:multiple-host
->>>>>>> multiple-host
                 networks:
                        - jenkins-nginx-network
                 deploy:
@@ -50,31 +42,17 @@ services:
                         - jenkins-log:/var/log/jenkins
                         - jenkins-data:/var/jenkins_home
                         - jenkins-java-ext-dirs:/usr/java/packages/lib/ext
-<<<<<<< HEAD
-=======
 
->>>>>>> multiple-host
                           #- certbot-conf:/etc/letsencrypt
                           #- certbot-www:/var/www/certbot
                           #- /var/run/docker.sock:/var/run/docker.sock
                           #- /usr/local/bin/docker:/usr/local/bin/docker
                 networks:
                         - jenkins-nginx-network
-<<<<<<< HEAD
-
-=======
->>>>>>> multiple-host
                 depends_on:
                         - db_host
                         - gitlab_server
                         - remote_host
-<<<<<<< HEAD
-
-        nginx:
-                image:  jenkins-nginx
-                build:
-                        context: nginx
-=======
                 deploy:
                         replicas: 1
                         placement:
@@ -104,7 +82,6 @@ services:
 #                                registry_nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
 
 #                                letsencrypt['enable'] = false
->>>>>>> multiple-host
                 ports:
                         - '2222:22'
 #                        - '8090:8090'
@@ -116,58 +93,6 @@ services:
                         - gitlab-data:/var/opt/gitlab
                 networks:
                         - jenkins-nginx-network
-<<<<<<< HEAD
-
-                depends_on:
-                        - jenkins
-                        - db_host
-                        - gitlab_server
-                        - remote_host
-        
-                          # certbot:
-                          # image: certbot/certbot
-                          # restart: unless-stopped
-                          # volumes:
-                          # - certbot-conf:/etc/letsencrypt
-                          # - certbot-www:/var/www/certbot
-                          # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
-        gitlab_server:
-                image: jenkins-gitlab
-                build:
-                        context: gitlab
-                restart: 'no'
-                hostname: "jenkins.local"
-                environment:
-                        GITLAB_OMNIBUS_CONFIG: |
-                                external_url "https://jenkins.local:8090"
-                                gitlab_rails['gitlab_shell_ssh_port'] = 2222
-
-                                nginx['ssl_certificate'] = "/etc/ssl/certs/localhost.crt"
-                                nginx['ssl_certificate_key'] = "/etc/ssl/private/localhost.key"
-                                nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
-                                nginx['custom_gitlab_server_config'] = "error_page 497 https://$$host:$$server_port$$request_uri;"
-
-                                registry_external_url "https://jenkins.local:8091"
-                                registry_nginx['ssl_certificate'] = "/etc/ssl/certs/docker-registry.crt"
-                                registry_nginx['ssl_certificate_key'] = "/etc/ssl/private/docker-registry.key"
-                                registry_nginx['ssl_dhparam'] = "/etc/ssl/certs/dhparam.pem"
-
-                                # Uncomment this if you want to install your certicate
-                                # https://docs.gitlab.com/omnibus/settings/ssl.html#details-on-how-gitlab-and-ssl-work
-                                letsencrypt['enable'] = false
-
-                ports:
-                        - '8090:8090'
-                        - '8091:8091'
-                        - '2222:22'
-                volumes:
-                        - gitlab-etc:/etc/gitlab
-                        - gitlab-logs:/var/log/gitlab
-                        - gitlab-data:/var/opt/gitlab
-                networks:
-                        - jenkins-nginx-network
-=======
                 deploy:
                         mode: global
                         placement:
@@ -236,7 +161,6 @@ services:
 
 
 
->>>>>>> multiple-host
 volumes:
         jenkins-log:
         jenkins-data:
@@ -245,12 +169,9 @@ volumes:
         gitlab-etc:
         gitlab-logs:
         gitlab-data:
-<<<<<<< HEAD
-=======
         svn-repo-data:
         svn-etc:
         nexus-data:
->>>>>>> multiple-host
 
 networks:
         jenkins-nginx-network:
